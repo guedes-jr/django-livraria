@@ -1,0 +1,89 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Lista de livros{% endblock %}
+{% block card %}{{ qtd_carrinho }}{% endblock %}
+{% block content %}
+<h1>Lista de livros</h1>
+{% if messages %} {% for message in messages %}
+    <br />
+    <section class="alert {{message.tags}}">{{ message }}</section>
+{% endfor %} {% endif %}
+<br />
+<hr />
+<form class="row row-cols-lg-auto g-3 align-items-center" method="post" enctype="multipart/form-data" action="{% url 'livros' %}"> {% csrf_token %}
+    <legend>Filtros: </legend>
+    <div class="col-12">
+        <label class="visually-hidden" for="categoria">Categoria</label>
+        <div class="input-group">
+            <input type="text" class="form-control" name="categoria" id="categoria" placeholder="Categoria">
+        </div>
+    </div>
+    <div class="col-12">
+        <label class="visually-hidden" for="nome">Nome do livro</label>
+        <div class="input-group">
+            <input type="text" class="form-control" name="nome" id="nome" placeholder="Nome do Livro">
+        </div>
+    </div>
+    <div class="col-12">
+        <label class="visually-hidden" for="autor">Autor</label>
+        <div class="input-group">
+            <input type="text" class="form-control" name="autor" id="autor" placeholder="Autor">
+        </div>
+    </div>
+    <div class="col-12">
+    <label class="visually-hidden" for="qtd">Qtd / Página</label>
+        <select class="form-select" name="qtd" id="qtd">
+            <option selected>Qtd / Página</option>
+            <option value="10">10</option>
+            <option value="20">20</option>
+            <option value="30">30</option>
+        </select>
+    </div>
+    <div class="col-12">
+        <button type="submit" class="btn btn-primary">Buscar</button>
+    </div>
+</form>
+<hr />
+<br />
+<br />
+<table class="table">
+    <thead class="table-light">
+      <th>Categoria</th>
+      <th>Nome do livro</th>
+      <th>Autor</th>
+      <th>Publicado em</th>
+      <th>Capa</th>
+      <th>Acções</th>
+    </thead>
+    <tbody>
+        {% for livro in livros %}
+        <tr>
+            <td>
+                {% for category in livro.volumeInfo.categories %}
+                    {{category}}<br />
+                {% endfor %}
+            </td>
+            <td>{{livro.volumeInfo.title}}</td>
+            <td>
+                {% for autor in livro.volumeInfo.authors %}
+                    {{autor}}<br />
+                {% endfor %}
+            </td>
+            <td>{{livro.volumeInfo.publishedDate}}</td>
+            <td>
+                <img src="{{livro.volumeInfo.imageLinks.thumbnail}}" alt="thumbnail" width="20" height="30">
+            </td>
+            <td>
+                <a href="{% url 'adicionar_carrinho' livro.id %}" style="padding: 7px; cursor: pointer; font-size: 24px" title="Adicionar ao carrinho">
+                    <i style="color: green" class="bi bi-cart-plus"></i>
+                </a>
+                <a href="{% url 'detalhar_livro' livro.id %}" style="padding: 8px; cursor: pointer; font-size: 20px" title="Visualizar os detalhes">
+                    <i class="bi bi-search"></i>
+                </a>
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+  </table>
+{% endblock %}

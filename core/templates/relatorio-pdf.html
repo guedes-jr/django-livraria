@@ -1,0 +1,29 @@
+{% extends "base_relatorio.html" %}
+{% load static %}
+
+{% block title %}Relatório de livros{% endblock %}
+{% load filters %}
+{% block content %}
+<h1>Minhas compras</h1>
+
+<table class="table" style="text-align:center">
+    <thead class="table-light">
+        <th>Thumbnail</th>
+        <th>Título</th>
+        <th>Quantidade</th>
+        <th>Valor</th>
+    </thead>
+    <tbody>
+        {% for item in compras %}
+        <tr>
+            <td>
+                <img src="{{item.thumbnail}}" alt="thumbnail" width="20" height="30">
+            </td>
+            <td>{{item.title}}</td>
+            <td>{{item.quantidade}}</td>
+            <td>{{item.valor|multiply:item.quantidade}}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>  
+{% endblock %}

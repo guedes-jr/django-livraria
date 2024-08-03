@@ -1,0 +1,58 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Lista de livros{% endblock %}
+{% block card %}{{ qtd_carrinho }}{% endblock %}
+{% block content %}
+    <h1>{{ book.volumeInfo.title }}</h1>
+    <br />
+    <br />
+    <div class="card">
+        <div class="row no-gutters">
+            <div class="col-md-4">
+                <img src="{{ book.volumeInfo.imageLinks.medium }}" class="card-img" alt="{{ book.volumeInfo.title }}">
+            </div>
+            <div class="col-md-8">
+                <div class="card-body">
+                    <p class="card-text"><strong>Autores:</strong>
+                    {% for author in book.volumeInfo.authors %}
+                        {% if book.volumeInfo.authors|length < 4 %}
+                        <br />
+                        {% endif %}
+                        {{author}};
+                    {% endfor %}
+                    </p>
+                    <p class="card-text"><strong>Editora:</strong> {{ book.volumeInfo.publisher }}</p>
+                    <p class="card-text"><strong>Data de Publicação:</strong> {{ data_publicacao }}</p>
+                    <p class="card-text"><strong>Identificadores:</strong> 
+                    {% for identifier in book.volumeInfo.industryIdentifiers %}
+                        <br />
+                            - {{identifier.type}} - {{identifier.identifier}}
+                    {% endfor %}
+                    </p>
+                    <p class="card-text"><strong>Categoria:</strong>
+                    {% for categoria in categorias %}
+                    <br />
+                        - {{categoria}};
+                    {% endfor %}
+                    </p>
+                    <p class="card-text"><strong>Idioma:</strong> {{ book.volumeInfo.language }}</p>
+                    <p class="card-text"><strong>País:</strong> {{ book.saleInfo.country }}</p>
+                    <p class="card-text"><strong>Quantidade de Páginas:</strong> {{ book.volumeInfo.pageCount }}</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <hr />
+    <h2>Sinopse:</h1>
+    <div class="card">
+        <div class="card-body">
+            {{book.volumeInfo.description|safe}}
+        </div>
+    </div>
+</div>
+<br />
+<br />
+<br />
+<br />
+{% endblock %}

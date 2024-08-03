@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Lista de livros{% endblock %}
+{% block card %}{{ qtd_carrinho }}{% endblock %}
+{% load filters %}
+{% block content %}
+<div style="display: flex; align-items: center; justify-content: space-between;">
+    <h1>Minhas compras</h1>
+    <div style="display: flex; align-items: center; justify-content: space-between;">
+        <div style="display: flex; gap: 2rem;">
+            <a href="{% url 'exportar_pdf' %}" class="btn btn-primary" role="button">Exportar Comrpa <i class="bi bi-file-earmark-pdf-fill"></i></a>
+        </div>
+    </div> 
+</div>
+{% if messages %} {% for message in messages %}
+    <br />
+    <section class="alert {{message.tags}}">{{ message }}</section>
+{% endfor %} {% endif %}
+
+<table class="table">
+    <thead class="table-light">
+        <th>Thumbnail</th>
+        <th>Título</th>
+        <th>Quantidade</th>
+        <th>Valor</th>
+    </thead>
+    <tbody>
+        {% for item in compras %}
+        <tr>
+            <td>
+                <img src="{{item.thumbnail}}" alt="thumbnail" width="40" height="60">
+            </td>
+            <td>{{item.title}}</td>
+            <td>{{item.quantidade}}</td>
+            <td>{{item.valor|multiply:item.quantidade}}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>  
+{% endblock %}
