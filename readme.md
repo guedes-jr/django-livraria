@@ -1,30 +1,30 @@
 
-# 🌐 Nome do projeto
+# 🌐 Django Livros Online
 <div align="center">
-  <img src="https://www.4devs.com.br/4devs_gerador_imagem.php?acao=gerar_imagem&txt_largura=800&txt_altura=600&extensao=png&fundo_r=0.06274509803921569&fundo_g=0.996078431372549&fundo_b=0.9568627450980393&texto_r=0&texto_g=0&texto_b=0&texto=Imagem%20do%20projeto&tamanho_fonte=30" alt="Logo do Projeto" width="600"/>
+  <img src="./static/img/demo.png" alt="Logo do Projeto" width="200"/>
 </div>
 
 <p align="center">
   <a href="https://github.com/seu-usuario/seu-repositorio">
-    <img alt="GitHub repo size" src="https://img.shields.io/github/repo-size/guedes-jr/[repositories]">
+    <img alt="GitHub repo size" src="https://img.shields.io/github/repo-size/guedes-jr/django_next_auth">
   </a>
-  <a href="https://github.com/guedes-jr/[repositories]/issues">
-    <img alt="GitHub issues" src="https://img.shields.io/github/issues/guedes-jr/[repositories]">
+  <a href="https://github.com/guedes-jr/django_next_auth/issues">
+    <img alt="GitHub issues" src="https://img.shields.io/github/issues/guedes-jr/django_next_auth">
   </a>
-  <a href="https://github.com/guedes-jr/[repositories]/network">
-    <img alt="GitHub forks" src="https://img.shields.io/github/forks/guedes-jr/[repositories]">
+  <a href="https://github.com/guedes-jr/django_next_auth/network">
+    <img alt="GitHub forks" src="https://img.shields.io/github/forks/guedes-jr/django_next_auth">
   </a>
-  <a href="https://github.com/guedes-jr/[repositories]/stargazers">
-    <img alt="GitHub stars" src="https://img.shields.io/github/stars/guedes-jr/[repositories]">
+  <a href="https://github.com/guedes-jr/django_next_auth/stargazers">
+    <img alt="GitHub stars" src="https://img.shields.io/github/stars/guedes-jr/django_next_auth">
   </a>
-  <a href="https://github.com/guedes-jr/[repositories]/blob/main/LICENSE">
-    <img alt="GitHub license" src="https://img.shields.io/github/license/guedes-jr/[repositories]">
+  <a href="https://github.com/guedes-jr/django_next_auth/blob/main/LICENSE">
+    <img alt="GitHub license" src="https://img.shields.io/github/license/guedes-jr/django_next_auth">
   </a>
 </p>
 
 ## 📝 Sumário
 
-- [Sobre o Projeto](#%EF%B8%8Fsobre-o-projeto)
+- [Sobre o Projeto](#%EF%B8%8F-sobre-o-projeto)
 - [Tecnologias Utilizadas](#-tecnologias-utilizadas)
 - [Funcionalidades](#-funcionalidades)
 - [Requisitos](#-requisitos)
@@ -35,112 +35,141 @@
 - [Licença](#-licença)
 - [Contato](#-contato)
 
-## 🛠️Sobre o Projeto
+## 🛠️ Sobre o Projeto
 
-Descrição do projeto que está sendo desenvoido
+Projeto prático realizado em processo seletivo para vaga de desenvolvedor python e Django
 
 ## 🧰 Tecnologias Utilizadas
 
 - [Django](https://www.djangoproject.com/) - Back-end framework
-- [Next.js](https://nextjs.org/) - React framework para front-end
 - [PostgreSQL](https://www.postgresql.org/) - Banco de dados
-- [AntDesign](https://ant.design/) - Estilização
+- [Bootstrap](https://getbootstrap.com/) - Estilização
 
 ## ✨ Funcionalidades
 
-- Autenticação de usuários
-- CRUD de novos usuários
-- Interface responsiva e moderna
-- API interna para comunicação com o frontend
+- Listar Livros
+- Detalhar Livros
+- Adicionar ao carrinho
+- Registrar compra
+- Exportar lista de compra em PDF
 
 ## 📋 Requisitos
 
-- [Python 3](https://www.python.org/downloads/release/python-315/)
-- [Node.js 14 ou superior](https://nodejs.org/pt/blog/release/v14.17.3)
-- [PostgreSQL](https://www.postgresql.org/)
+- Python
+- Django
+- PostgreSQL
 
 ## 🚀 Instalação
 
 ### Clonando o Repositório
 
 ```bash
-git clone https://github.com/guedes-jr/[repositories].git
+git clone https://github.com/guedes-jr/django-livraria livraria
+
+cd livraria
 ```
-... 
 
-## 📦 Scripts Disponíveis
+### Configurando o Back-end (Django)
 
-Na pasta `frontend`, você pode rodar:
+```bash
+# Criar ambiente virtual
+python3 -m venv venv
 
-- `npm run dev`: Executa a aplicação em modo de desenvolvimento.
-- `npm run build`: Compila a aplicação para produção.
-- `npm run start`: Inicia o servidor Next.js.
+# Ativar ambiente virtual
+source venv/bin/activate  # No Windows use `venv\Scripts\activate`
 
-Na pasta `backend`, você pode rodar:
+# Instalar dependências necessárias para execução do projeto
+pip install -r requirements.txt
+```
 
-- `python manage.py runserver`: Inicia o servidor Django.
+### Crie um banco de dados PostgreSQL e configure o usuário e senha no arquivo `settings`
+```bash
+su postgres 
+
+psql
+```
+```sql
+create user userlivraria with password 'livraria';
+create database dblivraria owner userlivraria;
+
+\c dblivraria
+create extension unaccent;
+create extension pg_trgm; 
+```
+---
+> **ERRO:** Caso ocorra erro ao fazer o migrate, verifique o status do seu postgres
+> ```sudo service postgresql status```
+> se estiver `down` use o seguinte comando:
+> ```sudo service postgresql start```
+
+### Criar tabelas no banco de dados e um superusuário
+```bash
+# Para identificar as alterações realizadas em meu user customizado
+python3 manage.py makemigrations core
+
+# Aplicar models e criar as tabelas no banco de dados
+python3 manage.py migrate
+```
+
+### Executando a Aplicação
+
+```bash
+cd livraria
+source venv/bin/activate  # No Windows use `venv\Scripts\activate`
+python3 manage.py runserver
+```
 
 ## 📁 Estrutura de Pastas
 
 ```plaintext
-├── backend
-├── ApiRoot
+├── core
+│   ├── admin.py
+│   ├── apps.py
+│   ├── constants.py
 │   ├── __init__.py
+│   ├── models.py
+│   ├── static
+│   │   └── img
+│   ├── templates
+│   │   ├── carrinho.html
+│   │   ├── compras.html
+│   │   ├── detalhar-livro.html
+│   │   ├── lista-livros.html
+│   │   └── relatorio-pdf.html
+│   ├── templatetags
+│   │   ├── filters.py
+│   │   └── __init__.py
+│   ├── tests.py
+│   ├── urls.py
+│   └── views.py
+├── livraria
 │   ├── asgi.py
+│   ├── __init__.py
 │   ├── settings.py
 │   ├── urls.py
 │   └── wsgi.py
-├── LICENSE
-├── README.md
-├── auth
-│   ├── __init__.py
-│   ├── admin.py
-│   ├── apps.py
-│   ├── models.py
-│   ├── tests.py
-│   └── views.py
-├── frontend
-│   ├── README.md
-│   ├── next.config.mjs
-│   ├── package-lock.json
-│   ├── package.json
-│   ├── postcss.config.mjs
-│   ├── public
-│   │   ├── banner.png
-│   │   ├── next.svg
-│   │   └── vercel.svg
-│   ├── src
-│   │   ├── app
-│   │   │   ├── favicon.ico
-│   │   │   ├── fetcher.ts
-│   │   │   ├── globals.css
-│   │   │   ├── layout.tsx
-│   │   │   └── page.tsx
-│   │   └── middleware.ts
-│   ├── tailwind.config.ts
-│   └── tsconfig.json
 ├── manage.py
-└── requirements.txt
+├── readme.md
+├── requirements.txt
+├── static
+│   ├── css
+│   │   ├── bootstrap.min.css
+│   │   └── global.css
+│   ├── img
+│   │   ├── book-half.svg
+│   │   └── demo.png
+│   └── js
+│       ├── bootstrap.bundle.min.js
+│       ├── bootstrap.min.js
+│       └── popper.min.js
+└── templates
+    ├── base.html
+    └── base_relatorio.html
 ```
-> Comando utilizado para mostrar a estrutura de dados `tree -I 'node_modules' -I '__pycache__' -I 'migrations' -I 'venv'`.
-
-## 🤝 Contribuindo
-
-Contribuições são bem-vindas! Sinta-se à vontade para abrir uma issue ou enviar um pull request.
-
-1. Faça um fork do projeto
-2. Crie uma nova branch (`git checkout -b feature/nova-funcionalidade`)
-3. Commit suas alterações (`git commit -m 'Adiciona nova funcionalidade'`)
-4. Faça o push para a branch (`git push origin feature/nova-funcionalidade`)
-5. Abra um Pull Request
-
-## 📄 Licença
-
-Este projeto está licenciado sob a Licença MIT - veja o arquivo [LICENSE](LICENSE) para detalhes.
 
 ## 📧 Contato
 
-👤 **Seu Nome**
+👤 **João Guedes M. Jr**
 
 - Github: [@guedes-jr](https://github.com/guedes-jr)
 - LinkedIn: [João Guedes](https://www.linkedin.com/in/jo%C3%A3o-guedes-36a440135)
