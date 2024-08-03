@@ -29,10 +29,7 @@
 - [Funcionalidades](#-funcionalidades)
 - [Requisitos](#-requisitos)
 - [Instalação](#-instalação)
-- [Scripts Disponíveis](#-scripts-disponíveis)
 - [Estrutura de Pastas](#-estrutura-de-pastas)
-- [Contribuindo](#-contribuindo)
-- [Licença](#-licença)
 - [Contato](#-contato)
 
 ## 🛠️ Sobre o Projeto
